@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Data.SqlClient;
 using System.Configuration;
+using ControleEstoque.Web.Helpers;
 
 namespace ControleEstoque.Web.Models
 {
@@ -22,7 +23,8 @@ namespace ControleEstoque.Web.Models
                 {
                     comando.Connection = conexao;
                     comando.CommandText = string.Format(
-                        "Select count(*) from usuario where  login = '{0}' and senha='{1}'", login, senha);
+                        "Select count(*) from usuario where  login = '{0}' and senha='{1}'", 
+                        login,CriptoHelper.HashMD5(senha));
 
                     returno = ((int)comando.ExecuteScalar() > 0);
 
