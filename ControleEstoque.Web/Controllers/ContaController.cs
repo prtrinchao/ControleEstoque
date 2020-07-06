@@ -18,7 +18,7 @@ namespace ControleEstoque.Web.Controllers
         }
 
         [HttpPost]
-        [AllowAnonymous]
+        [AllowAnonymous]     
         public ActionResult Login(LoginViewModel login, string returnUrl)
         {
             if (!ModelState.IsValid)
@@ -50,6 +50,7 @@ namespace ControleEstoque.Web.Controllers
 
         [HttpPost]
         [AllowAnonymous]
+        
         public ActionResult LogOff()
         {
             FormsAuthentication.SignOut();
