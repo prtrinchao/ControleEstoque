@@ -7,14 +7,20 @@ using System.Configuration;
 using ControleEstoque.Web.Helpers;
 using System.Web.UI.WebControls;
 using System.Data;
+using System.Security.Principal;
 
 namespace ControleEstoque.Web.Models
 {
     public class UsuarioModel
     {
-        public static bool validarUsuario(string login, string senha)
+        public int Id { get; set; }
+
+        public string Login { get; set; }
+
+        public string Nome { get; set; }
+        public static UsuarioModel validarUsuario(string login, string senha)
         {
-            var returno = false;
+            UsuarioModel retorno = null;
 
             using (var conexao = new SqlConnection())
             {
@@ -24,15 +30,26 @@ namespace ControleEstoque.Web.Models
                 using (var comando = new SqlCommand())
                 {
                     comando.Connection = conexao;
-                    comando.CommandText = "Select count(*) from usuario where  login = @login and senha=@senha";
+                    comando.CommandText = "Select * from usuario where  login = @login and senha=@senha";
                     comando.Parameters.Add("@login", SqlDbType.VarChar).Value = login;
                     comando.Parameters.Add("@senha", SqlDbType.VarChar).Value = CriptoHelper.HashMD5(senha);
 
-                    returno = ((int)comando.ExecuteScalar() > 0);
+                    var reder = comando.ExecuteReader();
+
+                    if (reder.Read())
+                    {
+
+                        retorno = new  UsuarioModel{
+                            Id = (int)reder["id"],
+                            Login = (string)reder["login"],
+                            Nome = (string)reder["nome"]
+                        };
+
+                    }
 
                 }
             }
-            return returno;
+            return retorno;
 
         }
     }
