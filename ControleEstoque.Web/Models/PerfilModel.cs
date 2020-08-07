@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Configuration;
@@ -8,15 +7,11 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 
-
-
-
-
-
-namespace ControleEstoque.Web.Models
+namespace ControleEstoque.Web
 {
-    public class GrupoProdutoModel
+    public class PerfilModel
     {
+
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Preencha o nome.")]
@@ -24,9 +19,9 @@ namespace ControleEstoque.Web.Models
 
         public bool Ativo { get; set; }
 
-        public static List<GrupoProdutoModel> RecuperarLista(int pagIni, int qtdReg, string filtro = "")
+        public static List<PerfilModel> RecuperarLista(int pagIni, int qtdReg, string filtro = "")
         {
-            var retorno = new List<GrupoProdutoModel>();
+            var retorno = new List<PerfilModel>();
 
             using (var conexao = new SqlConnection())
             {
@@ -43,12 +38,12 @@ namespace ControleEstoque.Web.Models
                     }
 
                     comando.Connection = conexao;
-                    comando.CommandText = string.Format(" Select * from grupo_produto {0} order by nome offset {1} rows fetch next {2} rows only ",whereFiltro, pos, qtdReg);
+                    comando.CommandText = string.Format(" Select * from perfil {0} order by nome offset {1} rows fetch next {2} rows only ",whereFiltro, pos, qtdReg);
                     var reader = comando.ExecuteReader();
 
                     while (reader.Read())
                     {
-                        retorno.Add(new GrupoProdutoModel
+                        retorno.Add(new PerfilModel
                         {
                             Id = (int)reader["id"],
                             Nome = (string)reader["nome"],
@@ -63,6 +58,39 @@ namespace ControleEstoque.Web.Models
 
         }
 
+        public static List<PerfilModel> ListarPerfil()
+        {
+            var retorno = new List<PerfilModel>();
+
+            using (var conexao = new SqlConnection())
+            {
+                conexao.ConnectionString = ConfigurationManager.ConnectionStrings["principal"].ConnectionString;
+                conexao.Open();
+
+                using (var comando = new SqlCommand())
+                {
+
+
+                    comando.Connection = conexao;
+                    comando.CommandText = " Select * from perfil where ativo = 1 order by nome ";
+                    var reader = comando.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        retorno.Add(new PerfilModel
+                        {
+                            Id = (int)reader["id"],
+                            Nome = (string)reader["nome"]
+                        });
+                    }
+
+                }
+            }
+            return retorno;
+
+        }
+
+
 
         public static int QtdRegistros()
         {
@@ -76,7 +104,7 @@ namespace ControleEstoque.Web.Models
                 using (var comando = new SqlCommand())
                 {
                     comando.Connection = conexao;
-                    comando.CommandText = "Select count(*) from grupo_produto";
+                    comando.CommandText = "Select count(*) from perfil";
                     retorno = (int)comando.ExecuteScalar();
 
 
@@ -87,9 +115,9 @@ namespace ControleEstoque.Web.Models
         }
 
 
-        public static GrupoProdutoModel RecuperarPeloId(int id)
+        public static PerfilModel RecuperarPeloId(int id)
         {
-            GrupoProdutoModel retorno = null;
+            PerfilModel retorno = null;
 
             using (var conexao = new SqlConnection())
             {
@@ -99,13 +127,13 @@ namespace ControleEstoque.Web.Models
                 using (var comando = new SqlCommand())
                 {
                     comando.Connection = conexao;
-                    comando.CommandText = "Select * from grupo_produto where id = @id";
+                    comando.CommandText = "Select * from perfil where id = @id";
                     comando.Parameters.Add("@id", SqlDbType.Int).Value = id;
                     var reader = comando.ExecuteReader();
 
                     if (reader.Read())
                     {
-                        retorno = new GrupoProdutoModel
+                        retorno = new PerfilModel
                         {
                             Id = (int)reader["id"],
                             Nome = (string)reader["nome"],
@@ -134,7 +162,7 @@ namespace ControleEstoque.Web.Models
                     using (var comando = new SqlCommand())
                     {
                         comando.Connection = conexao;
-                        comando.CommandText = "delete from grupo_produto where id =@id";
+                        comando.CommandText = "delete from perfil where id =@id";
                         comando.Parameters.Add("@id", SqlDbType.Int).Value = id;
                         retorno = (comando.ExecuteNonQuery() > 0);
 
@@ -165,7 +193,7 @@ namespace ControleEstoque.Web.Models
 
                     if (model == null)
                     {
-                        comando.CommandText = "insert into grupo_produto (nome,ativo) values (@nome,@ativo);select convert(int,scope_identity())";
+                        comando.CommandText = "insert into perfil (nome,ativo) values (@nome,@ativo);select convert(int,scope_identity())";
                         comando.Parameters.Add("@nome", SqlDbType.VarChar).Value = this.Nome;
                         comando.Parameters.Add("@ativo", SqlDbType.Bit).Value = (this.Ativo ? 1 : 0);
                         retorno = (int)comando.ExecuteScalar();
@@ -173,7 +201,7 @@ namespace ControleEstoque.Web.Models
                     }
                     else
                     {
-                        comando.CommandText = "update grupo_produto set nome = @nome , ativo = @ativo where id = @id";
+                        comando.CommandText = "update perfil set nome = @nome , ativo = @ativo where id = @id";
                         comando.Parameters.Add("@nome", SqlDbType.VarChar).Value = this.Nome;
                         comando.Parameters.Add("@ativo", SqlDbType.Bit).Value = (this.Ativo ? 1 : 0);
                         comando.Parameters.Add("@id", SqlDbType.Int).Value = this.Id;
@@ -193,6 +221,5 @@ namespace ControleEstoque.Web.Models
             return retorno;
 
         }
-
     }
 }

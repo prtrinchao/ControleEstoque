@@ -36,3 +36,22 @@ textarea {
 .invisivel {
     display: none;
 }
+
+.modal {
+    overflow-y: hidden;
+}
+
+body.modal-open, .modal-open .navbar-fixed-top, .modal-open .navbar-fixed-bottom {
+    margin-right: 0px;
+}
+
+#mensagem_grid {
+    height: 100px;
+    text-align: center;
+    border: 1px solid #dddddd;
+    line-height: 100px;
+}
+
+#grid_cadastro thead tr th span {
+    cursor: pointer;
+}

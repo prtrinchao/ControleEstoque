@@ -28,10 +28,10 @@
                                 <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu">
-                                <li>@Html.ActionLink("Grupos de produtos", "GrupoProduto", "Cadastro")</li>
-                                <li>@Html.ActionLink("Marcas de produtos", "MarcaProduto", "Cadastro")</li>
-                                <li>@Html.ActionLink("Locais de armazenamento", "LocalProduto", "Cadastro")</li>
-                                <li>@Html.ActionLink("Unidades de medida", "UnidadeMedida", "Cadastro")</li>
+                                <li>@Html.ActionLink("Grupos de produtos", "Index", "CadGrupoProduto")</li>
+                                <li>@Html.ActionLink("Marcas de produtos", "Index", "CadMarcaProduto")</li>
+                                <li>@Html.ActionLink("Locais de armazenamento", "Index", "CadLocalProduto")</li>
+                                <li>@Html.ActionLink("Unidades de medida", "Index", "CadUnidadeMedida")</li>
                                 <li>@Html.ActionLink("Produtos", "Produto", "Cadastro")</li>
                                 <li class="nav-divider"></li>
                                 <li>@Html.ActionLink("Países", "Pais", "Cadastro")</li>
@@ -39,8 +39,8 @@
                                 <li>@Html.ActionLink("Cidades", "Cidade", "Cadastro")</li>
                                 <li>@Html.ActionLink("Fornecedores", "Fornecedor", "Cadastro")</li>
                                 <li class="nav-divider"></li>
-                                <li>@Html.ActionLink("Perfis de Usuários", "PerfilUsuario", "Cadastro")</li>
-                                <li>@Html.ActionLink("Usuários", "Usuario", "Cadastro")</li>
+                                <li>@Html.ActionLink("Perfis de Usuários", "Index", "CadPerfil")</li>
+                                <li>@Html.ActionLink("Usuários", "Index", "CadUsuario")</li>
                             </ul>
                         </li>
                         <li>
@@ -80,7 +80,7 @@
                     {
                         <ul class="nav navbar-nav navbar-right">
                             <li>@Html.ActionLink("Sobre", "Sobre", "Home")</li>
-                            <li><a href="#">Olá @User.Identity.Name</a></li>
+                            <li><a href="#">Olá @User.Identity.Name <i icon="down-arrow" class="icon icon_down-arrow"></i> </a></li>
                             <li><a href="javascript:document.getElementById('logoffForm').submit()">Sair</a></li>
                         </ul>
                     }

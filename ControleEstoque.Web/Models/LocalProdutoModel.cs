@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Configuration;
@@ -8,14 +7,9 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 
-
-
-
-
-
 namespace ControleEstoque.Web.Models
 {
-    public class GrupoProdutoModel
+    public class LocalProdutoModel
     {
         public int Id { get; set; }
 
@@ -24,13 +18,13 @@ namespace ControleEstoque.Web.Models
 
         public bool Ativo { get; set; }
 
-        public static List<GrupoProdutoModel> RecuperarLista(int pagIni, int qtdReg, string filtro = "")
+        public static List<LocalProdutoModel> RecuperarLista(int pagIni, int qtdReg, string filtro ="")
         {
-            var retorno = new List<GrupoProdutoModel>();
+            var retorno = new List<LocalProdutoModel>();
 
             using (var conexao = new SqlConnection())
             {
-                conexao.ConnectionString = ConfigurationManager.ConnectionStrings["principal"].ConnectionString;
+                conexao.ConnectionString = System.Configuration.ConfigurationManager.ConnectionStrings["principal"].ConnectionString;
                 conexao.Open();
 
                 using (var comando = new SqlCommand())
@@ -43,12 +37,12 @@ namespace ControleEstoque.Web.Models
                     }
 
                     comando.Connection = conexao;
-                    comando.CommandText = string.Format(" Select * from grupo_produto {0} order by nome offset {1} rows fetch next {2} rows only ",whereFiltro, pos, qtdReg);
+                    comando.CommandText = string.Format(" Select * from local_produto {0} order by nome offset {1} rows fetch next {2} rows only ",whereFiltro, pos, qtdReg);
                     var reader = comando.ExecuteReader();
 
                     while (reader.Read())
                     {
-                        retorno.Add(new GrupoProdutoModel
+                        retorno.Add(new LocalProdutoModel
                         {
                             Id = (int)reader["id"],
                             Nome = (string)reader["nome"],
@@ -70,13 +64,13 @@ namespace ControleEstoque.Web.Models
 
             using (var conexao = new SqlConnection())
             {
-                conexao.ConnectionString = ConfigurationManager.ConnectionStrings["principal"].ConnectionString;
+                conexao.ConnectionString = System.Configuration.ConfigurationManager.ConnectionStrings["principal"].ConnectionString;
                 conexao.Open();
 
                 using (var comando = new SqlCommand())
                 {
                     comando.Connection = conexao;
-                    comando.CommandText = "Select count(*) from grupo_produto";
+                    comando.CommandText = "Select count(*) from local_produto";
                     retorno = (int)comando.ExecuteScalar();
 
 
@@ -87,25 +81,25 @@ namespace ControleEstoque.Web.Models
         }
 
 
-        public static GrupoProdutoModel RecuperarPeloId(int id)
+        public static LocalProdutoModel RecuperarPeloId(int id)
         {
-            GrupoProdutoModel retorno = null;
+            LocalProdutoModel retorno = null;
 
             using (var conexao = new SqlConnection())
             {
-                conexao.ConnectionString = ConfigurationManager.ConnectionStrings["principal"].ConnectionString;
+                conexao.ConnectionString = System.Configuration.ConfigurationManager.ConnectionStrings["principal"].ConnectionString;
                 conexao.Open();
 
                 using (var comando = new SqlCommand())
                 {
                     comando.Connection = conexao;
-                    comando.CommandText = "Select * from grupo_produto where id = @id";
+                    comando.CommandText = "Select * from local_produto where id = @id";
                     comando.Parameters.Add("@id", SqlDbType.Int).Value = id;
                     var reader = comando.ExecuteReader();
 
                     if (reader.Read())
                     {
-                        retorno = new GrupoProdutoModel
+                        retorno = new LocalProdutoModel
                         {
                             Id = (int)reader["id"],
                             Nome = (string)reader["nome"],
@@ -134,7 +128,7 @@ namespace ControleEstoque.Web.Models
                     using (var comando = new SqlCommand())
                     {
                         comando.Connection = conexao;
-                        comando.CommandText = "delete from grupo_produto where id =@id";
+                        comando.CommandText = "delete from local_Produto where id =@id";
                         comando.Parameters.Add("@id", SqlDbType.Int).Value = id;
                         retorno = (comando.ExecuteNonQuery() > 0);
 
@@ -165,7 +159,7 @@ namespace ControleEstoque.Web.Models
 
                     if (model == null)
                     {
-                        comando.CommandText = "insert into grupo_produto (nome,ativo) values (@nome,@ativo);select convert(int,scope_identity())";
+                        comando.CommandText = "insert into local_produto (nome,ativo) values (@nome,@ativo);select convert(int,scope_identity())";
                         comando.Parameters.Add("@nome", SqlDbType.VarChar).Value = this.Nome;
                         comando.Parameters.Add("@ativo", SqlDbType.Bit).Value = (this.Ativo ? 1 : 0);
                         retorno = (int)comando.ExecuteScalar();
@@ -173,7 +167,7 @@ namespace ControleEstoque.Web.Models
                     }
                     else
                     {
-                        comando.CommandText = "update grupo_produto set nome = @nome , ativo = @ativo where id = @id";
+                        comando.CommandText = "update local_produto set nome = @nome , ativo = @ativo where id = @id";
                         comando.Parameters.Add("@nome", SqlDbType.VarChar).Value = this.Nome;
                         comando.Parameters.Add("@ativo", SqlDbType.Bit).Value = (this.Ativo ? 1 : 0);
                         comando.Parameters.Add("@id", SqlDbType.Int).Value = this.Id;

@@ -9,87 +9,8 @@ namespace ControleEstoque.Web.Controllers
 {
     public class CadastroController : Controller
     {
-      
-        [HttpPost]
-        [Authorize]
-        [ValidateAntiForgeryToken]
-        public ActionResult RecuperarGrupoProduto(int id)
-        {
-            return Json(GrupoProdutoModel.RecuperarPeloId(id));
-        }
-
-        [HttpPost]
-        [Authorize]
-        [ValidateAntiForgeryToken]
-        public ActionResult ExcluirGrupoProduto(int id)
-        {
-
-            return Json(GrupoProdutoModel.ExcluirPeloId(id));
-        }
-
-        [HttpPost]
-        [Authorize]
-        [ValidateAntiForgeryToken]
-        public ActionResult SalvarGrupoProduto(GrupoProdutoModel model)
-        {
-            var resultado = "OK";
-            var mensagens = new List<string>();
-            var idSalvo = string.Empty;
-            if (!ModelState.IsValid)
-            {
-                resultado = "AVISO";
-                mensagens = ModelState.Values.SelectMany(x => x.Errors).Select(x => x.ErrorMessage).ToList();
-            }
-            else
-            {
-                try
-                {
-
-                    var id = model.Salvar();
-
-                    if (id > 0)
-                    {
-                        idSalvo = id.ToString();
-                    }
-                    else
-                    {
-                        resultado = "ERRO";
-                    }
-                }
-                catch (Exception ex)
-                {
-                    resultado = "ERRO";
-                }
-
-            }
-            return Json(new { Resultado = resultado, Mensagens = mensagens, IdSalvo = idSalvo });
-        }
-
-
-        [Authorize]
-        public ActionResult GrupoProduto()
-        {
-            return View(GrupoProdutoModel.RecuperarLista());
-        }
-
-        [Authorize]
-        public ActionResult MarcaProduto()
-        {
-            return View();
-        }
-
-        [Authorize]
-        public ActionResult LocalProduto()
-        {
-            return View();
-        }
-
-        [Authorize]
-        public ActionResult UnidadeMedida()
-        {
-            return View();
-        }
-
+       
+        
         [Authorize]
         public ActionResult Produto()
         {
@@ -120,18 +41,7 @@ namespace ControleEstoque.Web.Controllers
             return View();
         }
 
-        [Authorize]
-        public ActionResult PerfilUsuario()
-        {
-            return View();
-        }
-
-        [Authorize]
-        public ActionResult Usuario()
-        {
-            return View();
-        }
-
-
+        
     }
+
 }
