@@ -171,6 +171,7 @@
       <Link>.editorconfig</Link>
     </Content>
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\Cadastro\CadBaseMelhorado.js" />
     <Content Include="Scripts\Cadastro\CadBase.js" />
     <Content Include="Scripts\Cadastro\GrupoProduto.js" />
     <Content Include="Scripts\Cadastro\LocalProduto.js" />
@@ -224,6 +225,7 @@
     <Content Include="Views\CadPerfil\Index.cshtml" />
     <Content Include="Views\CadLocalProduto\Index.cshtml" />
     <Content Include="Views\CadMarcaProduto\Index.cshtml" />
+    <Content Include="Views\Shared\_CadastroMelhorado.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
