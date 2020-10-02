@@ -47,7 +47,7 @@ namespace ControleEstoque.Web.Controllers
             }
             else
             {
-                ModelState.AddModelError("", "Login inválido.");
+                ModelState.AddModelError("CustomError", "Login inválido.");
             }
 
             return View(login);

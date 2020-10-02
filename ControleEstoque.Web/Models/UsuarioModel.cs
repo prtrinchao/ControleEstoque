@@ -41,9 +41,9 @@ namespace ControleEstoque.Web.Models
                 using (var comando = new SqlCommand())
                 {
                     comando.Connection = conexao;
-                    comando.CommandText = "Select * from usuario where  login = @login and senha=@senha";
-                    comando.Parameters.Add("@login", SqlDbType.VarChar).Value = login;
-                    comando.Parameters.Add("@senha", SqlDbType.VarChar).Value = CriptoHelper.HashMD5(senha);
+                    comando.CommandText = "Select * from usuario where  upper(login) = @login and upper(senha) = @senha";
+                    comando.Parameters.Add("@login", SqlDbType.VarChar).Value = login.ToUpper();
+                    comando.Parameters.Add("@senha", SqlDbType.VarChar).Value = CriptoHelper.HashMD5(senha).ToUpper();
 
                     var reader = comando.ExecuteReader();
 
@@ -287,7 +287,7 @@ namespace ControleEstoque.Web.Models
                 using (var comando = new SqlCommand())
                 {
                     comando.Connection = conexao;
-                    comando.CommandText = "Select * from perfil p join usuario_perfil up on up.id_perfil = p.id  where up.id_usuario = @id";
+                    comando.CommandText = "Select * from perfil p join perfil_usuario up on up.id_perfil = p.id  where up.id_usuario = @id";
                     comando.Parameters.Add("@id", SqlDbType.Int).Value = this.Id;
                     var reader = comando.ExecuteReader();
 
@@ -315,7 +315,7 @@ namespace ControleEstoque.Web.Models
                 using (var comando = new SqlCommand())
                 {
                     comando.Connection = conexao;
-                    comando.CommandText = "select p.id, p.nome from usuario_perfil up join perfil p on up.id_perfil = p.id where up.id_usuario = @id";
+                    comando.CommandText = "select p.id, p.nome from perfil_usuario up join perfil p on up.id_perfil = p.id where up.id_usuario = @id";
                     comando.Parameters.Add("@id", SqlDbType.Int).Value = this.Id;
                     var reader = comando.ExecuteReader();
 

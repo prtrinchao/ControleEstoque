@@ -12,7 +12,7 @@ namespace ControleEstoque.Web.Models
         [Display(Name="Usuário:")]
         public string Usuario { get; set; }
         
-        [Required(ErrorMessage ="Informee a Senha")]
+        [Required(ErrorMessage ="Informe a Senha")]
         [DataType(DataType.Password)]
         [Display(Name ="Senha:")]
         public string Senha { get; set; }
