@@ -13,7 +13,7 @@ function formatar_mensagem_aviso(mensagens) {
 
 function createPagination(divPag, qtdPag) {
 
-    if (qtdPag > 1) {
+  //  if (qtdPag > 1) {
 
         var cabecalho = ' <nav> ' +
             '  	<ul class="pagination"> ' +
@@ -48,10 +48,10 @@ function createPagination(divPag, qtdPag) {
 
         divPag.empty().append(paginador);
 
-    }
-    else {
-        divPag.empty();
-    }
+    //}
+   // else {
+   //     divPag.empty();
+   // }
 
 }
 
@@ -76,6 +76,8 @@ function abrir_form(dados) {
         .on('hidden.bs.modal', function () {
             modal_cadastro.hide().appendTo('body');
             createPagination($('#paginador_table'), QtdPaginas);
+            
+          
         });
 
 }
@@ -105,6 +107,12 @@ $(document).on('click', '#btn_incluir', function () {
         if (response) {
             abrir_form(response);
         }
+    }).fail(function () {
+        Swal.fire(
+            'Falha de Requisição',
+            'Erro de comunicação com o Servidor',
+            'error'
+        );
     });
 })
     .on('click', '.btn-excluir', function () {
